@@ -1,0 +1,11 @@
+[package]
+name = "jarvis-ci"
+version = "0.1.0"
+authors = ["Johannes Seitz <johannes.w.seitz@gmail.com>"]
+
+[dependencies]
+url = "1.7.0"
+serde = "1.0"
+serde_yaml = "0.7"
+serde_derive = "1.0"
+git2 = "0.6"
