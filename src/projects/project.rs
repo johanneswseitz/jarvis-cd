@@ -3,7 +3,8 @@ use std::fs;
 use std::fs::{DirEntry};
 use std::path::{PathBuf, Path};
 use projects::repository::{Repository};
-use projects::build_job::BuildJob;
+use build_jobs::build_job::BuildJob;
+
 
 #[derive(Debug, PartialEq, PartialOrd, Deserialize)]
 pub struct Project {
@@ -23,7 +24,8 @@ impl Project {
         }
         println!("Repo changed, running build!");
         let build_job = BuildJob::new(repo.build_descriptor_file().as_path());
-        build_job.run();
+        let result = build_job.run();
+        println!("Build result: {:?}", result);
     }
 
     fn repo_path(&self, workdir:&Path) -> PathBuf {
