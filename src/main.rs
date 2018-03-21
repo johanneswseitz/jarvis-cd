@@ -6,7 +6,7 @@ extern crate serde_derive;
 extern crate git2;
 extern crate shiplift;
 
-use std::fs;
+use std::{fs, env};
 use projects::config::JarvisConfig;
 use std::time::Duration;
 use std::thread;
@@ -32,6 +32,7 @@ mod build_jobs;
 //}
 
 fn main() {
+    println!("{:?}", env::args());
     let result = build_jobs::container::Container::new(String::from("ubuntu:latest"), vec![]).build();
     println!("Build result: {:?}", result);
 }
