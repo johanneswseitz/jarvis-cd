@@ -14,7 +14,8 @@ impl BuildJob {
     pub fn run(&self) -> Result<BuildSuccess, BuildFailure> {
         let descriptor = BuildDescriptor::read_from(self.build_descriptor_file_path.as_path())?;
         let container = Container::new( descriptor.container, descriptor.pre_script );
-        container.build();
+        let result = container.build();
+        println!("Build Result: {:?}", result);
         container.run_script(descriptor.script);
         Ok(BuildSuccess)
     }

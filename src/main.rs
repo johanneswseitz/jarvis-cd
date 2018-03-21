@@ -32,8 +32,8 @@ mod build_jobs;
 //}
 
 fn main() {
-
-    build_jobs::container::Container::new(String::from("ubuntu:16.04"), vec![]).build();
+    let result = build_jobs::container::Container::new(String::from("ubuntu:latest"), vec![]).build();
+    println!("Build result: {:?}", result);
 }
 
 fn banner() -> String { String::from(r"
