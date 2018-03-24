@@ -14,8 +14,6 @@ impl Container {
 
     pub fn build(&self) -> Result<(), BuildError> {
         let docker = Docker::new();
-        let info = docker.images()
-            .build(BuildOptions::)
         let info = docker.containers()
             .create(&ContainerOptions::builder(self.base_image.as_ref())
             .entrypoint("/bin/bash -c uname -a").build())?;

@@ -1,4 +1,3 @@
 projects:
   - name: jarvis-pipeline
     url: https://github.com/Ookami86/testing-jarvis.git
-workdir: "/tmp/jarvis"
