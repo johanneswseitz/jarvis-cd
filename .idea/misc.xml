@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CargoProjects">
-    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
   </component>
-  <component name="RustProjectSettings">
-    <option name="toolchainHomeDirectory" value="/usr/bin" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (jarvis-cd-FbgPxpQW)" project-jdk-type="Python SDK">
+    <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
