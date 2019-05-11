@@ -1,0 +1,37 @@
+#!/bin/sh
+
+REPO=$PWD
+
+check_files_in () {
+  rev=$1
+
+  # create a temporary working directory
+  workdir=$(mktemp -d /tmp/gitXXXXXX)
+  (
+    # arrange to clean up the workding directory
+    # when the subshell exits
+    trap "cd /; rm -rf $workdir" EXIT
+
+    # unset GIT_DIR because it would confuse things
+    unset GIT_DIR
+    unset GIT_QUARANTINE_PATH
+
+    # clone the repository
+    cd $workdir
+    git config advice.detachedHead false
+    git clone $REPO jarvis-copy
+
+    # checkout the specific revision we're checking
+    cd jarvis-copy
+    git checkout $rev
+
+    # perform some sort of validation.  The exit code of this 
+    # command will be the exit code of this function, so
+    # returning an error will reject the push.
+    ./jarvis
+  )
+}
+
+while read oldrev newrev refname; do
+  check_files_in $newrev || exit 1
+done
