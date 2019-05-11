@@ -39,7 +39,8 @@ class DockerContainer:
         if not self.container:
             self.container = self.client.containers.run(self.image_name(), "sleep 1d",
                                                 volumes={self.git_dir: {"bind":self.jarvis_directory(), 'mode': 'rw'}},
-                                                working_dir=self.jarvis_directory(), detach=True)
+                                                working_dir=self.jarvis_directory(), detach=True,
+                                                user=os.uname())
         output = self.container.exec_run(command)
         print(output.output.decode("utf-8"))
 
