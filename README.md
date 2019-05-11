@@ -7,4 +7,3 @@ Jarvis CD is a Continuous Delivery tool for the pedantic idealist. The core desi
 * No Web GUI, only Chat interactions
 * Pre-Tested/Gated Commits as a default
 * Secure by default
->>>>>>> Initial commit
