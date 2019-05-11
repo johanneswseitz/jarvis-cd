@@ -14,7 +14,7 @@ type Script = String;
 
 impl BuildDescriptor {
     pub fn read_from(build_descriptor_file:&Path) -> Result<BuildDescriptor, BuildDescriptorError> {
-        let mut file = File::open(build_descriptor_file)?;
+        let file = File::open(build_descriptor_file)?;
         let build_descriptor : BuildDescriptor = serde_yaml::from_reader(file)?;
         Ok(build_descriptor)
     }

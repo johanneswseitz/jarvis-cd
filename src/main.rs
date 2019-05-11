@@ -50,7 +50,7 @@ fn poll_git_and_build_if_changed_loop(config:&JarvisConfig) -> ! {
 }
 
 fn execute_pretest(config:&JarvisConfig) {
-    let result = build_jobs::container::Container::new(String::from("ubuntu:latest"), vec![]).build();
+    let result = build_jobs::container::Container::new(String::from("./Dockerfile"), vec![]).build();
     println!("Build result: {:?}", result);
 }
 

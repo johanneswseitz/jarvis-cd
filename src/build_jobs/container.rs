@@ -2,24 +2,30 @@ use shiplift::{PullOptions, Docker, BuildOptions, ContainerOptions, ExecContaine
 use shiplift;
 
 pub struct Container {
-    base_image: String,
+    dockerfile: String,
     build_instructions: Vec<String>
 }
 
 impl Container {
-    pub fn new(base_image:String, build_instructions:Vec<String>) -> Container {
-        Container {base_image, build_instructions}
+    pub fn new(dockerfile:String, build_instructions:Vec<String>) -> Container {
+        Container { dockerfile, build_instructions}
     }
 
 
     pub fn build(&self) -> Result<(), BuildError> {
         let docker = Docker::new();
-        let info = docker.containers()
-            .create(&ContainerOptions::builder(self.base_image.as_ref())
-            .entrypoint("/bin/bash -c uname -a").build())?;
+        let info = docker.images()
+                    .build(&BuildOptions::builder(self.dockerfile.clone()).tag("jarvis-cd").build())?;
+        for elem in info {
+            println!("{:?}", elem);
+        }
+        let info = docker.containers().create(&ContainerOptions::builder(&"jarvis-cd").volumes(vec!["/jarvis"]).build());
+        for elem in info {
+            println!("{:?}", elem);
+        }
         let containers = docker.containers();
-        let container = containers.get(&info.Id);
-        container.start();
+        let container = containers.get("Jarvis-CD");
+        container.start()?;
         let result = container.wait()?;
         println!("{:?}", result);
         if result.StatusCode != 0 {
