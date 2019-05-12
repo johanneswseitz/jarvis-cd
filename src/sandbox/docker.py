@@ -80,9 +80,11 @@ class DockerContainer:
             for line in output:
                 log(line.strip().decode("utf-8"))
         except UnicodeError as e:
-            warn("Failed to decode the output. Falling back to printing unencoded binary strings. Sorry!")
+            # This issue usually happens when you're running something like Perl in the container.
+            # Perl ignores the encoding setting of stdout and spits out incompatible encodings...
+            warn("Failed to decode the output as unicode. Falling back to printing unencoded binary strings. Sorry!")
             for line in output:
-                log(line.strip())
+                print(line.strip())
         exit_code = get_exit_code(self.client, exec_id)
         if exit_code != 0:
             error("Command finished with exit code " + str(exit_code))
