@@ -3,7 +3,10 @@ language: python
 python:
   - "3.6"
 install:
-  - apt-get install -y python3-setuptools
   - pip install pipenv
   - pipenv install --dev
 script: pipenv run pyinstaller jarvis.spec
+addons:
+  apt:
+    packages:
+      python3-setuptools
