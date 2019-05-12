@@ -17,6 +17,8 @@ This is a work in progress and not intended for production use.
 
 Git push something to your Repo in order to trigger a build. If the build fails, your revision will be rejected by the server by default.
 
+![Usage example gif file](usage.gif)
+
 ## Usage
 
 At the moment a Jarvis build is made up of four parts:
@@ -57,8 +59,8 @@ Tests are run with
 ## TODO list of nice-to-add features
 
 - [ ] secure secret storage
+- [ ] deploy support
 - [ ] more configuration options
 - [ ] limit parallel builds 
 - [ ] create a decent CLI
 - [ ] automate release process 
-- [ ] deploy support
