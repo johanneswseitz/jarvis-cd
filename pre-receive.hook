@@ -1,7 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
 REPO=$PWD
-set -eou pipefail
 
 check_files_in () {
   rev=$1
@@ -30,6 +29,7 @@ check_files_in () {
     # returning an error will reject the push.
     ./jarvis
   )
+  return $?
 }
 
 while read oldrev newrev refname; do

@@ -26,7 +26,7 @@ At the moment a Jarvis build is made up of four parts:
 - the [jarvis executable](jarvis)
 - a  [Dockerfile](Dockerfile)
 - a [Jarvisfile](Jarvisfile)
-- a [post-receive hook](post-receive.hook) for your Git Server
+- a [pre-receive hook](pre-receive.hook) for your Git Server
 
 #### jarvis executable
 
