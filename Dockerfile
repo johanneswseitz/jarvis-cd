@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:jessie
 
 RUN pip install pipenv
 

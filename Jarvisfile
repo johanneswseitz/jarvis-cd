@@ -2,3 +2,5 @@
   script: pipenv install --dev
 - stage: Test (execute pytest)
   script: pipenv run pytest
+- stage: Test (execute pytest)
+  script: pipenv run pyinstaller jarvis.spec
