@@ -1,6 +1,12 @@
 import yaml
 import os
+
+from buildlog import log
 from sandbox.docker import DockerContainer
+
+# Unbuffered print for faster feedback
+import functools
+print = functools.partial(print, flush=True)
 
 
 class Build:
@@ -21,8 +27,9 @@ class Stage:
         self.script = script
 
     def execute_in(self, container:DockerContainer):
-        print("Executing Stage: " + self.name)
-        print("=" * 80)
+        log("Executing Stage: " + self.name, color="green")
+        log("=" * 80)
+        log(self.script, color="blue")
         container.run_command(self.script)
 
 

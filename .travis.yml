@@ -10,3 +10,10 @@ addons:
   apt:
     packages:
       python3-setuptools
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "dist/jarvis"
+  skip_cleanup: true
+  on:
+    tags: true

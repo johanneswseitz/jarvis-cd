@@ -12,6 +12,7 @@ docker = "*"
 chardet = "*"
 urllib3 = "*"
 pyyaml = "*"
+termcolor = "*"
 
 [requires]
 python_version = "3.6"

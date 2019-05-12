@@ -3,6 +3,7 @@ from docker.errors import ImageNotFound, BuildError
 import os
 import sys
 import hashlib
+from buildlog import log, error, debug, warn
 
 
 class DockerContainer:
@@ -30,19 +31,19 @@ class DockerContainer:
     def rebuild_image_if_changed(self):
         try:
             self.client.images.get(self.image_name())
-            print("Found previously built container image " + self.image_name())
+            log("Found previously built container image " + self.image_name())
         except ImageNotFound:
             self.build_new_container()
 
     def build_new_container(self):
         try:
-            print("No image found. Rebuilding container. This may take a while.")
+            log("No image found. Rebuilding container. This may take a while.")
             self.client.images.build(path=self.dockerfile_dir, dockerfile=self.dockerfile, tag=self.image_name())
-            print("Container built: " + self.image_name())
+            log("Container built: " + self.image_name())
         except BuildError as e:
-            print("Container build failed. Check the following output for errors:")
+            error("Container build failed. Check the following output for errors:")
             for message in e.build_log:
-                print(message)
+                error(message)
             sys.exit(1)
 
     def run_command(self, command):
@@ -50,14 +51,17 @@ class DockerContainer:
             self.container = self.client.containers.run(self.image_name(), "sleep 1d",
                                                         volumes={self.git_dir: {"bind": self.jarvis_directory(),
                                                                                 'mode': 'rw'}},
-                                                        working_dir=self.jarvis_directory(), detach=True)
-        output = self.container.exec_run(command, stream=True, demux=False)
+                                                        working_dir=self.jarvis_directory(),
+                                                        detach=True)
+        output = self.container.exec_run(command, stream=True, demux=False,
+                                         environment={"CI": True, "JARVIS_CI": True})
         try:
             for line in output.output:
-                print(line.strip().decode("utf-8"))
-        except Exception:
+                log(line.strip().decode("utf-8"))
+        except UnicodeError as e:
+            warn("Failed to decode the output. Falling back to printing unencoded binary strings. Sorry!")
             for line in output.output:
-                print(line.strip())
+                log(line.strip())
 
     def clean_containers(self):
         self.container.stop(timeout=1)
