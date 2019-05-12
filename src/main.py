@@ -6,7 +6,6 @@ import sys
 
 
 def ensure_utf8_terminal_encoding():
-    print(sys.stdout.encoding)
     if sys.stdout.encoding.lower() != "utf-8":
         warn("Your systems terminal encoding is set to " + sys.stdout.encoding)
         warn("To avoid headaches Jarvis requires terminals to use utf-8 encoding. "

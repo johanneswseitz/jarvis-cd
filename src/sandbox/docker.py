@@ -6,6 +6,27 @@ import hashlib
 from buildlog import log, error, debug, warn
 
 
+# With the original exec_run there's no way to get to the exit code of a streamed response.
+# Monkey patching for now, pull request will follow.
+def monkey_patched_exec_run(self, cmd, stdout=True, stderr=True, stdin=False, tty=False,
+                            privileged=False, user='', detach=False,
+                            socket=False, environment=None, workdir=None):
+    resp = self.client.api.exec_create(
+        self.id, cmd, stdout=stdout, stderr=stderr, stdin=stdin, tty=tty,
+        privileged=privileged, user=user, environment=environment,
+        workdir=workdir,
+    )
+    exec_output = self.client.api.exec_start(
+        resp['Id'], detach=detach, tty=tty, stream=True, socket=socket,
+        demux=False
+    )
+    return resp['Id'], exec_output
+
+
+def get_exit_code(client, exec_id):
+    return client.api.exec_inspect(exec_id)['ExitCode']
+
+
 class DockerContainer:
     def __init__(self, docker_file, git_dir):
         self.client = docker.from_env()
@@ -53,15 +74,22 @@ class DockerContainer:
                                                                                 'mode': 'rw'}},
                                                         working_dir=self.jarvis_directory(),
                                                         detach=True)
-        output = self.container.exec_run(command, stream=True, demux=False,
-                                         environment={"CI": True, "JARVIS_CI": True})
+        self.container.__class__.exec_run = monkey_patched_exec_run
+        exec_id, output = self.container.exec_run(command, environment={"CI": True, "JARVIS_CI": True})
         try:
-            for line in output.output:
+            for line in output:
                 log(line.strip().decode("utf-8"))
         except UnicodeError as e:
             warn("Failed to decode the output. Falling back to printing unencoded binary strings. Sorry!")
-            for line in output.output:
+            for line in output:
                 log(line.strip())
+        exit_code = get_exit_code(self.client, exec_id)
+        if exit_code > 0:
+            error("Command finished with exit code " + str(exit_code))
+            sys.exit(exit_code)
+        else:
+            log("Command finished with exit code " + str(exit_code), color="blue")
+
 
     def clean_containers(self):
         self.container.stop(timeout=1)
