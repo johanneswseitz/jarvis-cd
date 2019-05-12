@@ -69,6 +69,7 @@ Tests are run with
 
 - [ ] secure secret storage
 - [ ] deploy support
+- [ ] a shim like gradlew you can commit in Git instead of the binary
 - [ ] more configuration options
 - [ ] limit parallel builds 
 - [ ] create a decent CLI
