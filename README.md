@@ -1,11 +1,12 @@
 # Jarvis CD
 
-Jarvis CD is a Continuous Delivery tool for the pedantic idealist. The core design philosophies include:
+Jarvis CD is a lightweight Build Server/Continuous Delivery tool for the pedantic idealist. It's going to be:
 
-* Trivially easy to set up
-* Everything is kept in version control, even the Jarvis Executable
-* No Web GUI, only Git/Chat interactions
-* Pre-Tested/Gated Commits as a default
-* Secure by default
+* Really easy to set up
+* Embracing pipelines-as-code
+* Run as a Git pre-receive hook
+* Using Pre-Tested Commits by default
+* Be secure by default
+* Built on Docker. Pipelines run isolated by default.
 
 This is a work in progress and not intended for production use.
