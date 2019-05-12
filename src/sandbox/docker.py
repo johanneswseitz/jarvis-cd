@@ -59,7 +59,6 @@ class DockerContainer:
             for line in output.output:
                 print(line.strip())
 
-
     def clean_containers(self):
         self.container.stop(timeout=1)
         self.client.containers.prune()
