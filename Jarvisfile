@@ -1,5 +1,5 @@
 - stage: Prepare (install pipenv)
-  script: pipenv install --dev
+  script: pipenv --bare install --dev
 - stage: Test (execute pytest)
   script: pipenv run pytest
 - stage: Test (execute pytest)

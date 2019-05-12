@@ -1,6 +1,7 @@
 #!/bin/sh
 
 REPO=$PWD
+set -eou pipefail
 
 check_files_in () {
   rev=$1
@@ -18,12 +19,11 @@ check_files_in () {
 
     # clone the repository
     cd $workdir
-    git config advice.detachedHead false
     git clone $REPO jarvis-copy
 
     # checkout the specific revision we're checking
     cd jarvis-copy
-    git checkout $rev
+    git -c advice.detachedHead=false checkout $rev
 
     # perform some sort of validation.  The exit code of this 
     # command will be the exit code of this function, so

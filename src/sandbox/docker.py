@@ -1,6 +1,7 @@
 import docker
-from docker.errors import ImageNotFound
+from docker.errors import ImageNotFound, BuildError
 import os
+import sys
 import hashlib
 
 
@@ -31,17 +32,33 @@ class DockerContainer:
             self.client.images.get(self.image_name())
             print("Found previously built container image " + self.image_name())
         except ImageNotFound:
+            self.build_new_container()
+
+    def build_new_container(self):
+        try:
             print("No image found. Rebuilding container. This may take a while.")
             self.client.images.build(path=self.dockerfile_dir, dockerfile=self.dockerfile, tag=self.image_name())
             print("Container built: " + self.image_name())
+        except BuildError as e:
+            print("Container build failed. Check the following output for errors:")
+            for message in e.build_log:
+                print(message)
+            sys.exit(1)
 
     def run_command(self, command):
         if not self.container:
             self.container = self.client.containers.run(self.image_name(), "sleep 1d",
-                                                volumes={self.git_dir: {"bind":self.jarvis_directory(), 'mode': 'rw'}},
-                                                working_dir=self.jarvis_directory(), detach=True)
-        output = self.container.exec_run(command)
-        print(output.output.decode("utf-8"))
+                                                        volumes={self.git_dir: {"bind": self.jarvis_directory(),
+                                                                                'mode': 'rw'}},
+                                                        working_dir=self.jarvis_directory(), detach=True)
+        output = self.container.exec_run(command, stream=True, demux=False)
+        try:
+            for line in output.output:
+                print(line.strip().decode("utf-8"))
+        except Exception:
+            for line in output.output:
+                print(line.strip())
+
 
     def clean_containers(self):
         self.container.stop(timeout=1)
