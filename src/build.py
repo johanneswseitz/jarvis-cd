@@ -26,7 +26,7 @@ class Stage:
         self.name = name
         self.script = script
 
-    def execute_in(self, container:DockerContainer):
+    def execute_in(self, container: DockerContainer):
         log("Executing Stage: " + self.name, color="green")
         log("=" * 80)
         log(self.script, color="blue")
@@ -50,4 +50,3 @@ def from_jarvisfile(file) -> Build:
     for stage in jarvisfile.stages():
         build.add_stage(Stage(name=stage["stage"], script=stage["script"]))
     return build
-

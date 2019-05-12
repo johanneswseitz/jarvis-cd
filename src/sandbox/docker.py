@@ -84,12 +84,11 @@ class DockerContainer:
             for line in output:
                 log(line.strip())
         exit_code = get_exit_code(self.client, exec_id)
-        if exit_code > 0:
+        if exit_code != 0:
             error("Command finished with exit code " + str(exit_code))
             sys.exit(exit_code)
         else:
-            log("Command finished with exit code " + str(exit_code), color="blue")
-
+            log("Command finished with exit code " + str(exit_code) + "\n", color="blue")
 
     def clean_containers(self):
         self.container.stop(timeout=1)

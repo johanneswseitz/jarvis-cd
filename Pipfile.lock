@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1b24774dc56507caf2c22cf92210f5fad32f73bcc3a817381ccfd4378bebfde5"
+            "sha256": "8889e8d1d723880a70e9e3f89bdd7e79652ce39ad75c248884aa092ea67d4bc9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -131,7 +131,6 @@
         },
         "future": {
             "hashes": [
-                "sha256:39e1b103721939e44e41304fd95186e8b30c281e7935466a438cb5783e62e432",
                 "sha256:67045236dcfd6816dc439556d009594abf643e5eb48992e36beac09c2ca659b8"
             ],
             "version": "==0.17.1"
@@ -170,6 +169,14 @@
                 "sha256:dc639b046a6e2cff5bbe40194ad65936d6ba360b52b3c3fe1d08a82dd50b5e53"
             ],
             "version": "==1.8.0"
+        },
+        "pycodestyle": {
+            "hashes": [
+                "sha256:95a2219d12372f05704562a14ec30bc76b05a5b297b21a5dfe3f6fac3491ae56",
+                "sha256:e40a936c9a450ad81df37f549d676d127b1b66000a6c500caa2b085bc0ca976c"
+            ],
+            "index": "pypi",
+            "version": "==2.5.0"
         },
         "pyinstaller": {
             "hashes": [

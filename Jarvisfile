@@ -1,6 +1,8 @@
-- stage: Prepare (install pipenv)
+- stage: Prepare
   script: pipenv --bare install --dev
-- stage: Test (execute pytest)
+- stage: Style check
+  script: pipenv run pycodestyle src
+- stage: Test
   script: pipenv run pytest
-- stage: Test (execute pytest)
+- stage: Package
   script: pipenv run pyinstaller jarvis.spec
