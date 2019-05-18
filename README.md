@@ -77,3 +77,4 @@ Tests are run with
 - [ ] limit parallel builds 
 - [ ] create a decent CLI
 - [ ] automate release process 
+- [ ] ability to skip build
