@@ -16,6 +16,7 @@ class Build:
     def execute_in(self, container: DockerContainer):
         for stage in self.stages:
             stage.execute_in(container)
+        log("As always Sir, a great pleasure watching you work!", colour="green")
 
     def add_stage(self, param):
         self.stages.append(param)
@@ -27,9 +28,9 @@ class Stage:
         self.script = script
 
     def execute_in(self, container: DockerContainer):
-        log("Executing Stage: " + self.name, color="green")
+        log("Executing Stage: " + self.name, colour="green")
         log("=" * 80)
-        log(self.script, color="blue")
+        log(self.script, colour="blue")
         container.run_command(self.script)
 
 

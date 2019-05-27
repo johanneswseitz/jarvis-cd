@@ -3,7 +3,7 @@ from docker.errors import ImageNotFound, BuildError
 import os
 import sys
 import hashlib
-from buildlog import log, error, debug, warn
+from buildlog import log, error, debug, warn, verbatim
 
 
 # With the original exec_run there's no way to get to the exit code of a streamed response.
@@ -78,22 +78,22 @@ class DockerContainer:
         exec_id, output = self.container.exec_run(command, environment={"CI": True, "JARVIS_CI": True})
         try:
             for line in output:
-                log(line.strip().decode("utf-8"))
+                verbatim(line.strip().decode("utf-8"))
         except UnicodeError as e:
             # This issue usually happens when you're running something like Perl in the container.
             # Perl ignores the encoding setting of stdout and spits out incompatible encodings...
             warn("Failed to decode the output as unicode. Falling back to printing undecoded byte strings. Sorry!")
             for line in output:
-                print(line.strip())
+                verbatim(line.strip())
         exit_code = get_exit_code(self.client, exec_id)
         if exit_code != 0:
             error("Command finished with exit code " + str(exit_code))
             sys.exit(exit_code)
         else:
-            log("Command finished with exit code " + str(exit_code) + "\n", color="blue")
+            log("Command finished with exit code " + str(exit_code), colour="blue")
 
     def clean_containers(self):
-        self.container.stop(timeout=1)
+        self.container.stop(timeout=10)
         self.client.containers.prune()
 
     def image_name(self) -> str:

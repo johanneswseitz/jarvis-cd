@@ -9,11 +9,18 @@ def debug(message):
     print("Jarvis DEBUG: " + message)
 
 
-def log(message, color=None):
-    if color:
-        print("Jarvis: " + termcolor.colored(message, color))
+def log(message, colour=None):
+    if colour:
+        print("Jarvis: " + termcolor.colored(message, colour))
     else:
         print("Jarvis: " + message)
+
+
+def verbatim(message, colour=None):
+    if colour:
+        print(termcolor.colored(message, colour))
+    else:
+        print(message)
 
 
 def error(message):

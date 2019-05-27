@@ -7,4 +7,4 @@
 - stage: Package
   script: pipenv run pyinstaller jarvis.spec
 - stage: Cleanup
-  script: rm -rf build dist .pytest_cache
+  script: rm -rf build .pytest_cache
